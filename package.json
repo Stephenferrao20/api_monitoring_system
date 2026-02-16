@@ -1,0 +1,39 @@
+{
+  "name": "api_monitoring_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "processor": "node src/modules/processor/consumer.js",
+    "init": "node init-system.js",
+    "init:env": "node init-system.js --generate-env"
+  },
+  "keywords": [
+    "api",
+    "monitoring",
+    "tracking",
+    "analytics"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "amqplib": "^0.10.9",
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "express-rate-limit": "^8.2.1",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.2.1",
+    "pg": "^8.18.0",
+    "uuid": "^13.0.0",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}
