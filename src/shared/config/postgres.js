@@ -1,6 +1,6 @@
 import pg from 'pg';
-import config from '.';
-import logger from './logger';
+import config from './index.js';
+import logger from './logger.js';
 
 const { Pool } = pg;
 
@@ -35,9 +35,9 @@ class PostgresConnection{
     async testConnection(){
         try {
             const pool = this.getPool();
-            const clinet = await pool.connect();
-            const result = clinet.query("SELECT NOW()");
-            clinet.release();
+            const client = await pool.connect();
+            const result = await client.query("SELECT NOW()");
+            client.release();
 
             logger.info(`PG connected successfully at ${result.rows[0].now}`);
         } catch (error) {

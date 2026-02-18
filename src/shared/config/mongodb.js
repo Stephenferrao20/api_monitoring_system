@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import logger from "./logger";
-import config from "./index";
+import logger from "./logger.js";
+import config from "./index.js";
 
 
 class MongoConnection{
@@ -57,4 +57,4 @@ class MongoConnection{
      }
 }
 
-export default MongoConnection;
+export default new MongoConnection();

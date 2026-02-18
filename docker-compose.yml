@@ -49,7 +49,7 @@ services:
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics","-q","ping"]
-      interval: 30s
+      interval: 10s
       timeout: 10s
       retries: 5
 
@@ -68,6 +68,47 @@ services:
     restart: unless-stopped
     depends_on:
       - postgres
+
+  api-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api_monitoring_app
+    environment:
+      NODE_ENV: production
+      PORT: 5000
+      MONGO_URI: mongodb://mongo:27017/api_monitoring
+      MONGO_DB_NAME: api_monitoring
+      PG_HOST: postgres
+      PG_PORT: 5432
+      PG_DATABASE: api_monitoring
+      PG_USER: postgres
+      PG_PASSWORD: stephen
+      RABBITMQ_URL: amqp://api_user:secure_password@rabbitmq:5672/api_monitoring
+      RABBITMQ_QUEUE: api_hits
+      JWT_SECRET: your_super_secret_jwt_key_in_production
+      JWT_EXPIRES_IN: 24h
+      VALID_API_KEYS: test_key_123,test_key_456
+      RATE_LIMIT_WINDOW_MS: 60000
+      RATE_LIMIT_MAX_REQUESTS: 100
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./logs:/app/logs
+    networks:
+      - api_monitoring_network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl","-f","http://localhost:5000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
 
 volumes:
   postgres_data:
