@@ -41,6 +41,12 @@ const config = {
     rateLimit: {
         windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS, '900000',10),
         maxRequests: parseInt(process.env.RATE_LIMIT_MAX_REQUESTS , '1000',10)
+    },
+
+    cookie: {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+        expiresIn: 24 * 60 * 60 * 1000,
     }
 }
 
